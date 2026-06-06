@@ -73,18 +73,14 @@
 
   .nav-tabs {
     display: flex;
-    gap: 2px;
+    gap: 4px;
     background: var(--surface);
     border-radius: 12px;
-    padding: 3px;
-    overflow-x: auto;
-    scrollbar-width: none;
-  
+    padding: 4px;
   }
 
   .nav-tab {
-    .nav-tab {
-    padding: 6px 8px;
+    padding: 6px 14px;
     border-radius: 8px;
     border: none;
     background: transparent;
@@ -897,24 +893,6 @@ async function getAIResponse(userMsg) {
     removeTyping();
     appendMsg("Connection error. Please try again! 🔄", 'bot');
   }
-  btn.disabled = false;
-}
-        ]
-      })
-    });
-    
-    if (!res.ok) {
-      throw new Error(`API error: ${res.status}`);
-    }
-    
-    const data = await res.json();
-    removeTyping();
-    appendMsg(data.choices?.[0]?.message?.content || "Sorry, try again!", 'bot');
-  } catch (error) {
-    removeTyping();
-    appendMsg(`Error: ${error.message}. Please check your API key or try again later.`, 'bot');
-  }
-
   btn.disabled = false;
 }
 

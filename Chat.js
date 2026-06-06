@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `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,
+      'Authorization': `Bearer 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,
       'HTTP-Referer': 'https://ai-chatbot-hackathon.vercel.app',
       'X-Title': 'BizMind AI'
     },

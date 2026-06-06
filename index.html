@@ -888,10 +888,10 @@ async function getAIResponse(userMsg) {
     });
     const data = await res.json();
     removeTyping();
-    appendMsg(data.choices?.[0]?.message?.content || "Sorry, try again!", 'bot');
+    appendMsg(JSON.stringify(data), 'bot');
   } catch(e) {
     removeTyping();
-    appendMsg("Connection error. Please try again! 🔄", 'bot');
+    appendMsg(JSON.stringify(data), 'bot');
   }
   btn.disabled = false;
 }

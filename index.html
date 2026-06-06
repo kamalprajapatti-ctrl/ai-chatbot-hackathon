@@ -888,7 +888,7 @@ async function getAIResponse(userMsg) {
     });
     const data = await res.json();
     removeTyping();
-    appendMsg(JSON.stringify(data), 'bot');
+    appendMsg(data.choices?.[0]?.message?.content || "Sorry, try again!", 'bot');
   } catch(e) {
     removeTyping();
     appendMsg(JSON.stringify(data), 'bot');

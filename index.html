@@ -877,13 +877,21 @@ async function getAIResponse(userMsg) {
   showTyping();
 
   try {
-   const res = await fetch('https://corsproxy.io/?https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-     const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    // Get API key from environment variable or use a fallback
+    const apiKey = process.env.OPENROUTER_API_KEY || localStorage.getItem('openrouter_api_key');
+    
+    if (!apiKey) {
+      removeTyping();
+      appendMsg('⚠️ AI service not configured. Please set your OpenRouter API key.', 'bot');
+      btn.disabled = false;
+      return;
+    }
+
+    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
-        'Authorization': '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'
+        'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
         model: 'mistralai/mistral-7b-instruct:free',
@@ -893,9 +901,17 @@ async function getAIResponse(userMsg) {
         ]
       })
     });
+    
+    if (!res.ok) {
+      throw new Error(`API error: ${res.status}`);
+    }
+    
     const data = await res.json();
     removeTyping();
     appendMsg(data.choices?.[0]?.message?.content || "Sorry, try again!", 'bot');
+  } catch (error) {
+    removeTyping();
+    appendMsg(`Error: ${error.message}. Please check your API key or try again later.`, 'bot');
   }
 
   btn.disabled = false;
